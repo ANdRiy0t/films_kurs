@@ -1,0 +1,100 @@
+﻿@model kino_ku.ViewModels.UserLoginViewModel
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід | MoViEandPoPcOrN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #1f1f1f;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffcc00;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #ffcc00;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #333333;
+            border-radius: 5px;
+            background-color: #444444;
+            color: #ffffff;
+        }
+
+        input[type="submit"] {
+            background-color: #ffcc00;
+            color: #121212;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s ease;
+        }
+
+            input[type="submit"]:hover {
+                background-color: #e6b800;
+                transform: scale(1.05);
+            }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+            .register-link a {
+                color: #ffcc00;
+                text-decoration: none;
+            }
+
+                .register-link a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Вхід</h1>
+        <form asp-action="Login" method="POST">
+            <label for="username">Логін:</label>
+            <input asp-for="Email" type="text" id="username" placeholder="Введіть логін" required>
+
+            <label for="password">Пароль:</label>
+            <input asp-for="Password" type="password" id="password" placeholder="Введіть пароль" required>
+
+            <input type="submit" value="Увійти">
+        </form>
+        <div class="register-link">
+            <p>Ще не зареєстровані? <a asp-action="Register">Створити обліковий запис</a></p>
+        </div>
+    </div>
+</body>
+</html>

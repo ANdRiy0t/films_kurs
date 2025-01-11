@@ -1,0 +1,106 @@
+﻿@model kino_ku.ViewModels.UserRegistrationViewModel
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(255, 204, 0, 0.5);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffcc00;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffcc00;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #333333;
+            border-radius: 5px;
+            background-color: #222222;
+            color: #ffffff;
+        }
+
+            input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+                border-color: #ffcc00;
+            }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffcc00;
+            color: #121212;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+            button:hover {
+                background-color: #e6b800;
+                transform: scale(1.05);
+            }
+
+        p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Реєстрація</h1>
+        <form asp-action="Register" method="post">
+            <label for="username">Ім'я користувача</label>
+            <input asp-for="Username" type="text" id="username" name="username" placeholder="Введіть ім'я" required>
+
+            <label for="email">Електронна пошта</label>
+            <input asp-for="Email" type="email" id="email" name="email" placeholder="Введіть email" required>
+
+            <label for="password">Пароль</label>
+            <input asp-for="Password" type="password" id="password" name="password" placeholder="Введіть пароль" required>
+
+            <label for="confirm_password">Підтвердження пароля</label>
+            <input asp-for="ConfirmedPassword" type="password" id="confirm_password" placeholder="Повторіть пароль" required>
+
+            <button type="submit">Зареєструватися</button>
+        </form>
+        <p>Вже маєте обліковий запис? <a asp-action="Login">Увійти</a></p>
+    </div>
+</body>
+</html>

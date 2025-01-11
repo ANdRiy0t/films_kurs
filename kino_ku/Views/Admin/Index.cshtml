@@ -1,0 +1,252 @@
+﻿@model kino_ku.ViewModels.Admin.AdminViewModel
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адмін-меню</title>
+    <!-- Підключення Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e7f0ff;
+        }
+
+        .card-header {
+            background-color: #007bff !important;
+            color: white !important;
+        }
+
+        .btn {
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+        }
+
+        .btn:hover {
+            background-color: #0056b3 !important;
+            border-color: #0056b3 !important;
+        }
+
+        footer {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .nav-link {
+            color: white !important;
+        }
+
+        .nav-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+<header class="bg-primary text-white text-center py-3">
+    <h1>Адмін-меню</h1>
+</header>
+
+<nav class="bg-primary py-2">
+    <div class="container">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link" href="#users">Перегляд користувачів</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#movies">Зміна фільмів</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container my-4">
+    <div class="row justify-content-center">
+        <!-- Перегляд користувачів -->
+        <div class="col-md-8 mb-4" id="users">
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h2>Перегляд всіх користувачів</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Ім'я</th>
+                            <th>Email</th>
+                            <th>Роль</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                        <tr>
+                            <td>@user.Username</td>
+                            <td>@user.Email</td>
+                            <td>@user.TypeUser.ToString()</td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Зміна фільмів -->
+        <div class="col-md-8 mb-4" id="movies">
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h2>Зміна фільмів</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Таблиця фільмів -->
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Ім'я</th>
+                            <th>Опис</th>
+                            <th>Ціна</th>
+                            <th>Фото</th>
+                            <th>Дії</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var movie in Model.Movies)
+                        {
+                            <tr>
+                                <td>@movie.Title</td>
+                                <td>@movie.Description</td>
+                                <td>@movie.Price</td>
+                                <td><img alt="@movie.Title" src="data:image/jpeg;base64,@movie.ImageToBase64" style="max-width: 100px; max-height: 100px;"/></td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="btn btn-sm text-white m-2 edit-movie-btn"
+                                                    data-id="@movie.Id"
+                                                    data-title="@movie.Title"
+                                                    data-description="@movie.Description"
+                                                    data-price="@movie.Price"
+                                                    data-image="@movie.ImageToBase64">
+                                                Редагувати
+                                            </button>
+                                        </div>
+                                        <div class="col">
+                                            <form asp-action="DeleteMovie" method="post">
+                                                <button class="btn btn-sm text-white" value="@movie.Id" name="movieId">Видалити</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+
+                    <!-- Кнопка для показу форми -->
+                    <button class="btn text-white w-100 mb-3" id="showFormBtn">Додати новий фільм</button>
+
+                    <!-- Форма для створення нового фільму -->
+                    <div class="card p-3 d-none" id="newMovieForm">
+                        <form asp-controller="Admin" asp-action="CreateMovie" method="post" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="movie-title" class="form-label">Назва фільму:</label>
+                                <input type="text" id="movie-title" class="form-control" name="title" placeholder="Введіть назву фільму" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie-description" class="form-label">Опис фільму:</label>
+                                <textarea id="movie-description" class="form-control" rows="3" name="description" placeholder="Введіть опис фільму" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie-price" class="form-label">Ціна:</label>
+                                <input type="number" id="movie-price" class="form-control" placeholder="Введіть ціну" name="price" min="0" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="movie-photo" class="form-label">Завантажити фото:</label>
+                                <input type="file" id="movie-photo" class="form-control" name="file" accept="image/*" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Створити фільм</button>
+                        </form>
+                    </div>
+
+                    <div class="card p-3 d-none" id="editMovieForm">
+                        <form asp-controller="Admin" asp-action="EditMovie" method="post" enctype="multipart/form-data">
+                            <input type="hidden" id="edit-movie-id" name="id">
+
+                            <div class="mb-3">
+                                <label for="edit-movie-title" class="form-label">Назва фільму:</label>
+                                <input type="text" id="edit-movie-title" class="form-control" name="title" placeholder="Введіть назву фільму" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edit-movie-description" class="form-label">Опис фільму:</label>
+                                <textarea id="edit-movie-description" class="form-control" rows="3" name="description" placeholder="Введіть опис фільму" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edit-movie-price" class="form-label">Ціна:</label>
+                                <input type="number" id="edit-movie-price" class="form-control" name="price" min="0" placeholder="Введіть ціну" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="edit-movie-photo" class="form-label">Завантажити нове фото:</label>
+                                <input type="file" id="edit-movie-photo" class="form-control" name="file" accept="image/*">
+                            </div>
+                            
+                            <input type="hidden" id="image-base64" name="ImageToBase64"/>
+                            <button type="submit" class="btn btn-primary w-100" asp-action="EditMovie">Зберегти зміни</button>
+                            <button type="button" id="closeEditForm" class="btn btn-secondary w-100 mt-2">Закрити</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<p>&copy; 2025 Кінотеатр. Всі права захищені.</p>
+
+
+</body>
+
+</html>
+
+<script>
+    const form = document.getElementById('newMovieForm');
+    document.getElementById('showFormBtn').addEventListener('click', function () {
+        form.classList.remove('d-none');
+        document.getElementById('movie-title').value = '';
+        document.getElementById('movie-description').value = '';
+        document.getElementById('movie-price').value = '';
+        document.getElementById('movie-photo').value = '';
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const editButtons = document.querySelectorAll('.edit-movie-btn');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                form.classList.add('d-none');
+                event.preventDefault(); 
+
+                const movieId = button.dataset.id;
+                const title = button.dataset.title;
+                const description = button.dataset.description;
+                const price = button.dataset.price;
+                const imageBase64 = button.dataset.image;
+
+                document.getElementById('edit-movie-id').value = movieId;
+                document.getElementById('edit-movie-title').value = title;
+                document.getElementById('edit-movie-description').value = description;
+                document.getElementById('edit-movie-price').value = price;
+                document.getElementById('image-base64').value = imageBase64;
+                document.getElementById('editMovieForm').classList.remove('d-none');
+            });
+        });
+
+        document.getElementById('closeEditForm').addEventListener('click', function() {
+            document.getElementById('editMovieForm').classList.add('d-none');
+        });
+    }); 
+</script>

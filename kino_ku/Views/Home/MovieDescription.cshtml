@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model kino_ku.ViewModels.Home.HomeMovieDescriptionViewModel
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #121212;
+        color: #ffffff;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-lg">
+                <div class="card-header bg-dark text-white text-center">
+                    <h2>@Model.Movie.Title</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5 text-center">
+                            <img alt="@Model.Movie.Title" src="data:image/jpeg;base64,@Model.Movie.ImageToBase64"
+                                 class="img-fluid rounded"
+                                 style="max-width: 100%; height: auto;">
+                        </div>
+                        
+                        <div class="col-md-7">
+                            <p class="lead text-muted">@Model.Movie.Description</p>
+                            <h4 class="text-success fw-bold mt-5">Ціна: @Model.Movie.Price.ToString("C")</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <form asp-controller="Ticket" asp-action="BuyTicket" method="post">
+                        <input type="hidden" name="movieId" value="@Model.Movie.Id" />
+                        <button class="btn btn-warning btn-lg px-5">Купити квиток</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
