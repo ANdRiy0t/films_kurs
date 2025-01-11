@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("kino_ku")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8765cd883386908de373222e030024f164dd225")]
 [assembly: System.Reflection.AssemblyProductAttribute("kino_ku")]
 [assembly: System.Reflection.AssemblyTitleAttribute("kino_ku")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
